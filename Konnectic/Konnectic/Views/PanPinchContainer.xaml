@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Konnectic;assembly=Konnectic"
+             x:Class="Konnectic.Views.PanPinchContainer">
+    <ContentView.Content>
+        <Grid x:Name="GridContent">
+
+            <Image Source="{local:ImageResource Konnectic.Images.fol_grid.png}" WidthRequest="1024" HeightRequest="1024" />
+
+            <Grid>
+                <Picker x:Name="pickedWord2" ItemsSource="{Binding SessionInfo.Word2.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" />
+                <Picker x:Name="pickerWord2" ItemsSource="{Binding WordSuggestions}" />
+            </Grid>
+            <Grid>
+                <Picker x:Name="pickedWord3" ItemsSource="{Binding SessionInfo.Word3.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" IsEnabled="{Binding SessionInfo.Word3.IsActive}" />
+                <Picker x:Name="pickerWord3" ItemsSource="{Binding WordSuggestions}" IsEnabled="{Binding SessionInfo.Word3.IsActive}" />
+            </Grid>
+            <Grid>
+                <Picker x:Name="pickedWord4" ItemsSource="{Binding SessionInfo.Word4.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" IsEnabled="{Binding SessionInfo.Word4.IsActive}" />
+                <Picker x:Name="pickerWord4" ItemsSource="{Binding WordSuggestions}" IsEnabled="{Binding SessionInfo.Word4.IsActive}" />
+            </Grid>
+            <Grid>
+                <Picker x:Name="pickedWord5" ItemsSource="{Binding SessionInfo.Word5.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" IsEnabled="{Binding SessionInfo.Word5.IsActive}" />
+                <Picker x:Name="pickerWord5" ItemsSource="{Binding WordSuggestions}" IsEnabled="{Binding SessionInfo.Word5.IsActive}" />
+            </Grid>
+            <Grid>
+                <Picker x:Name="pickedWord6" ItemsSource="{Binding SessionInfo.Word6.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" IsEnabled="{Binding SessionInfo.Word6.IsActive}" />
+                <Picker x:Name="pickerWord6" ItemsSource="{Binding WordSuggestions}" IsEnabled="{Binding SessionInfo.Word6.IsActive}" />
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

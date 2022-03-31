@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Konnectic.Views.ChatHub"
+             xmlns:local="clr-namespace:Konnectic;assembly=Konnectic">
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0"  Padding="10" BackgroundColor="{StaticResource MediumPurple}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="4*" />
+                </Grid.ColumnDefinitions>
+
+                <Frame Grid.Column="0" CornerRadius="4" BackgroundColor="LightGray" Padding="10" >
+                    <Image
+                            x:Name="imgUserThumbNail"
+                            Source="{local:ImageResource Konnectic.Images.user_silhouette.png}"
+                                />
+                </Frame>
+
+                <Label Grid.Column="1"
+                      Text="{Binding SessionUsernames}"
+                      LineBreakMode="NoWrap"
+                      TextColor="{StaticResource LightPurple}"
+                      FontSize="24"
+                      VerticalOptions="End"
+                    />
+            </Grid>
+            
+            <Grid Grid.Row="1" Padding="10" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <ListView x:Name="lvConversation" Grid.Row="0"
+                ItemsSource="{Binding Messages}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                IsPullToRefreshEnabled="False"
+                CachingStrategy="RecycleElement"
+                SeparatorVisibility="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Margin="0, 5, 0, 5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0" Margin="5, 0, 5, 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" Text="{Binding OwnerUsername}" LineBreakMode="WordWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" Font="Bold, 20" />
+                                        <Label Grid.Column="1" Text="{Binding CreatedDate}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="12" VerticalOptions="End" />
+                                    </Grid>
+                                    <Frame Grid.Row="1" CornerRadius="4" BackgroundColor="{StaticResource LightPurple}" Padding="5">
+                                        <Frame.Triggers>
+                                            <DataTrigger TargetType="Frame" Binding="{Binding OwnerId, Converter={StaticResource IsLoggedInUserToBoolConverter}}" Value="False">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource DarkPurple}" />
+                                            </DataTrigger>
+                                        </Frame.Triggers>
+
+                                        <Label Text="{Binding Message}" 
+                                        LineBreakMode="WordWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="16" >
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding OwnerId, Converter={StaticResource IsLoggedInUserToBoolConverter}}" Value="False">
+                                                    <Setter Property="TextColor" Value="White" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Frame>
+                                </Grid>
+                                
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry Grid.Column="0" x:Name="entryNewMessage" FontSize="16" Text="{Binding MessageDraft}" Placeholder="Type a message" HorizontalOptions="FillAndExpand" />
+                    <Button Grid.Column="1" x:Name="btnSend" FontSize="16" Text="Send" Clicked="BtnSend_Clicked" />
+                </Grid>
+            </Grid>
+
+            <Grid IsVisible="{Binding IsBusy}" BackgroundColor="Black" Opacity="0.9" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" Color="{StaticResource MediumPurple}" />
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

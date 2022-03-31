@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Konnectic.Views.HomePageMaster"
+             xmlns:local="clr-namespace:Konnectic;assembly=Konnectic"
+             Title="Master">
+  <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Padding="10" BackgroundColor="{StaticResource DarkPurple}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+
+            <Frame Grid.Column="0" CornerRadius="4" BackgroundColor="LightGray" Padding="10" >
+                <Image
+                    x:Name="imgUserThumbNail"
+                    Source="{local:ImageResource Konnectic.Images.user_silhouette.png}"
+                        />
+            </Frame>
+
+            <Label Grid.Column="1"
+              Text="{Binding Username}"
+              LineBreakMode="NoWrap"
+              TextColor="{StaticResource LightPurple}"
+              FontSize="30"
+              VerticalOptions="End"
+              />
+        </Grid>
+
+
+        <ListView 
+              Grid.Row="1"
+              x:Name="MenuItemsListView"
+              SeparatorVisibility="None"
+              HasUnevenRows="true"
+              ItemsSource="{Binding MenuItems}">
+            <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <Grid Padding="15,10" HorizontalOptions="FillAndExpand">
+              <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="{Binding Title}" 
+                    FontSize="24"
+                    TextColor="{StaticResource DarkPurple}"
+                     />
+            </Grid>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </Grid>
+</ContentPage>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Konnectic.Views.LoginPage"
+             xmlns:vm="clr-namespace:Konnectic.ViewModels"
+             Title="Login">
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--Page Level Resources: Compatible with Xamarin Live Player -->
+            <Color x:Key="Primary">#2196F3</Color>
+            <Color x:Key="Accent">#96d1ff</Color>
+            <Color x:Key="LightTextColor">#999999</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid x:Name="gridContent" Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button x:Name="btnDebug" Opacity="0" Text="If you see this, you shouldn't be here." Clicked="BtnDebug_Clicked" FontSize="24" HorizontalOptions="FillAndExpand"/>
+
+                <Label Grid.Row="1" Text="Konnectic" FontSize="Large" VerticalTextAlignment="End" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="End" />
+
+                <Entry Grid.Row="2" Placeholder="Username" Text="{Binding Username}" VerticalOptions="Start" />
+                <Entry Grid.Row="3" Placeholder="Password" Text="{Binding Password}" VerticalOptions="End" />
+
+                <Label Grid.Row="4" Text="{Binding ErrorInfo.Message, Mode=TwoWay}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="16" TextColor="Red" Opacity="1" />
+
+                <Button Grid.Row="5" x:Name="btnLogin" Text="Login" Clicked="BtnLogin_Clicked" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Button Grid.Row="6" x:Name="btnRegister" Text="Register" Clicked="BtnRegister_Clicked" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Grid>
+
+            <Grid IsVisible="{Binding IsBusy}" BackgroundColor="Black" Opacity="0.8" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" Color="{StaticResource DarkPurple}" />
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

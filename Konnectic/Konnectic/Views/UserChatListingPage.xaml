@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Konnectic.Views.UserChatListingPage"
+             xmlns:local="clr-namespace:Konnectic;assembly=Konnectic"
+             xmlns:vm="clr-namespace:Konnectic.ViewModels">
+    <ContentPage.BindingContext>
+        <vm:UserChatListingViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" x:Name="btnConnections" Text="Connections" Clicked="BtnConnections_Clicked" Margin="5" HorizontalOptions="Center" VerticalOptions="Center" >
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding ShowChatSessionListing}" Value="False">
+                            <Setter Property="BackgroundColor" Value="{StaticResource LightPurple}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                
+                <Button Grid.Column="1" x:Name="btnFindUsers" Text="Find Users" Clicked="BtnFindUsers_Clicked" Margin="5" HorizontalOptions="Center" VerticalOptions="Center" >
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding ShowUserListing}" Value="False">
+                            <Setter Property="BackgroundColor" Value="{StaticResource LightPurple}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="5" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" IsVisible="False" >
+                    <Grid.Triggers>
+                        <MultiTrigger TargetType="Grid">
+                            <MultiTrigger.Conditions>
+                                <BindingCondition Binding="{Binding IsBusy}" Value="False" />
+                                <BindingCondition Binding="{Binding SessionListing.Count, Converter={StaticResource IsCollectionEmptyToBoolConverter}}" Value="True" />
+                                <BindingCondition Binding="{Binding ShowUserListing}" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="IsVisible" Value="True" />
+                        </MultiTrigger>
+                    </Grid.Triggers>
+                    <Label 
+                        Text="No existing connections" 
+                        LineBreakMode="NoWrap" 
+                        Style="{DynamicResource ListItemTextStyle}" 
+                        FontSize="24" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+
+                <ListView x:Name="lvUserChatSessionListing" Grid.Row="0" IsVisible="False"
+                ItemsSource="{Binding SessionListing}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                IsPullToRefreshEnabled="true"
+                CachingStrategy="RecycleElement" 
+                ItemTapped="LvUserChatSessionListing_ItemTapped" 
+                SeparatorVisibility="None">
+                    <ListView.Triggers>
+                        <DataTrigger TargetType="ListView" Binding="{Binding ShowChatSessionListing}" Value="True">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </ListView.Triggers>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="4*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Frame Grid.Column="0" CornerRadius="4" BackgroundColor="LightGray" Padding="5" >
+                                        <Image
+                                        x:Name="imgUserThumbNail"
+                                        Source="{local:ImageResource Konnectic.Images.user_silhouette.png}"
+                                           />
+                                    </Frame>
+
+                                    <!--Users within each session-->
+                                    <Frame Grid.Column="1" CornerRadius="4" BackgroundColor="{StaticResource LightPurple}" Padding="5" >
+                                        <Label 
+                                            Text="{Binding SessionMembers[0].Username}" 
+                                            LineBreakMode="NoWrap" 
+                                            Style="{DynamicResource ListItemTextStyle}" 
+                                            FontSize="16" />
+
+                                        <!-- TODO: Figure out to list the users in the session while maintaining click events -->
+                                        <!--<ListView ItemsSource="{Binding SessionMembers}" 
+                                        VerticalOptions="Start" 
+                                        HasUnevenRows="true"
+                                        CachingStrategy="RecycleElement" 
+                                        SeparatorVisibility="None">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate >
+                                                    <ViewCell >
+                                                        <Label 
+                                                        Text="{Binding Username}" 
+                                                        LineBreakMode="NoWrap" 
+                                                        Style="{DynamicResource ListItemTextStyle}" 
+                                                        FontSize="16" />
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>-->
+                                    </Frame>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                
+                
+                <Grid Grid.Row="0" IsVisible="False" >
+                    <Grid.Triggers>
+                        <MultiTrigger TargetType="Grid">
+                            <MultiTrigger.Conditions>
+                                <BindingCondition Binding="{Binding IsBusy}" Value="False" />
+                                <BindingCondition Binding="{Binding UsersListing.Count, Converter={StaticResource IsCollectionEmptyToBoolConverter}}" Value="True" />
+                                <BindingCondition Binding="{Binding ShowChatSessionListing}" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="IsVisible" Value="True" />
+                        </MultiTrigger>
+                    </Grid.Triggers>
+                    <Label 
+                        Text="Could not find any users" 
+                        LineBreakMode="WordWrap" 
+                        Style="{DynamicResource ListItemTextStyle}" 
+                        FontSize="24" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+
+                <ListView x:Name="lvUserListing" Grid.Row="0" IsVisible="False"
+                ItemsSource="{Binding UsersListing}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                IsPullToRefreshEnabled="true"
+                CachingStrategy="RecycleElement" 
+                SeparatorVisibility="None"
+                ItemTapped="LvUserListing_ItemTapped" >
+                    <ListView.Triggers>
+                        <DataTrigger TargetType="ListView" Binding="{Binding ShowUserListing}" Value="True">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </ListView.Triggers>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="4*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Frame Grid.Column="0" CornerRadius="4" BackgroundColor="LightGray" Padding="5" >
+                                        <Image
+                                        x:Name="imgUserThumbNail"
+                                        Source="{local:ImageResource Konnectic.Images.user_silhouette.png}"
+                                           />
+                                    </Frame>
+
+                                    <Frame Grid.Column="1" CornerRadius="4" BackgroundColor="{StaticResource LightPurple}" Padding="5">
+                                    <Label 
+                                        Text="{Binding Username}" 
+                                        LineBreakMode="NoWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="16" />
+                                </Frame>
+                                </Grid>
+                            </ViewCell>
+                            
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+
+        <Grid IsVisible="{Binding IsBusy}" BackgroundColor="Black" Opacity="0.9" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center" Color="{StaticResource LightPurple}" />
+        </Grid>
+    </Grid>
+</ContentPage>

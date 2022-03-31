@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:Konnectic.Views;assembly=Konnectic"
+             xmlns:local="clr-namespace:Konnectic;assembly=Konnectic"
+             x:Class="Konnectic.Views.FlowerOfLifePage">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <AbsoluteLayout Grid.RowSpan="4" Grid.ColumnSpan="4" >
+                <custom:PanPinchContainer x:Name="FolContainer" IsVisible="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <Grid x:Name="GridContent">
+                        <Picker x:Name="pickedWord2" WidthRequest="100" HeightRequest="50" ItemsSource="{Binding SessionInfo.Word2.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" />
+                        <Picker x:Name="pickerWord2" WidthRequest="100" HeightRequest="50"  ItemsSource="{Binding WordSuggestions}" SelectedItem="{Binding SelectedWord}" />
+                        <Picker x:Name="pickedWord3" ItemsSource="{Binding SessionInfo.Word3.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" IsEnabled="{Binding SessionInfo.Word3.IsActive}" />
+                        <Picker x:Name="pickerWord3" ItemsSource="{Binding WordSuggestions}" IsEnabled="{Binding SessionInfo.Word3.IsActive}" SelectedItem="{Binding SelectedWord}" />
+                        <Picker x:Name="pickedWord4" ItemsSource="{Binding SessionInfo.Word4.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" IsEnabled="{Binding SessionInfo.Word4.IsActive}" />
+                        <Picker x:Name="pickerWord4" ItemsSource="{Binding WordSuggestions}" IsEnabled="{Binding SessionInfo.Word4.IsActive}" SelectedItem="{Binding SelectedWord}"  />
+                        <Picker x:Name="pickedWord5" ItemsSource="{Binding SessionInfo.Word5.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" IsEnabled="{Binding SessionInfo.Word5.IsActive}" />
+                        <Picker x:Name="pickerWord5" ItemsSource="{Binding WordSuggestions}" IsEnabled="{Binding SessionInfo.Word5.IsActive}" />
+                        <Picker x:Name="pickedWord6" ItemsSource="{Binding SessionInfo.Word6.Value, ConverterParameter={StaticResource FolWordSelectedItemsSourceCoverter}}" IsEnabled="{Binding SessionInfo.Word6.IsActive}" />
+                        <Picker x:Name="pickerWord6" ItemsSource="{Binding WordSuggestions}" IsEnabled="{Binding SessionInfo.Word6.IsActive}" />
+
+                        <!--<Image Source="{local:ImageResource Konnectic.Images.fol_grid.png}" WidthRequest="1024" HeightRequest="1024" />-->
+                    </Grid>
+                </custom:PanPinchContainer>
+            </AbsoluteLayout>
+
+            <Button Grid.Row="3" Grid.Column="0" x:Name="btnToggleChat" Text="Chat" Margin="5" HorizontalOptions="End" VerticalOptions="End" Clicked="BtnToggleChat_Clicked" />
+            <Button Grid.Row="3" Grid.Column="3" x:Name="btnSend" Text="Send" Margin="5" HorizontalOptions="End" VerticalOptions="End" Clicked="BtnSend_Clicked" />
+
+
+            <Label Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" Text="{Binding DebugMessage}" LineBreakMode="WordWrap" TextColor="Black" FontSize="10" HorizontalOptions="Start" VerticalOptions="Start" />
+            
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>
